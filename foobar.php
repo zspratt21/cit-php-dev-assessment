@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file foobar.php
  * This script implements task 2 of the assessment.
@@ -9,25 +11,17 @@ $limit = 100;
 
 for ($i = 1; $i <= $limit; $i++) {
     // first check determines if the value of $i is divisible by 3
-    $check_a = $i % 3 == 0;
+    $check_a = 0 === $i % 3;
     // second check determines if the value of $i is divisible by 5
-    $check_b = $i % 5 == 0;
-    switch ($i) {
+    $check_b = 0 === $i % 5;
+    echo match (true) {
         // print foobar if both checks are true
-        case ($check_a && $check_b):
-            echo "foobar \n";
-            break;
+        $check_a && $check_b => "foobar \n",
         // print foo if only the first check is true
-        case ($check_a):
-            echo "foo \n";
-            break;
-        // print bar if only the second check is true
-        case ($check_b):
-            echo "bar \n";
-            break;
-        // print the value of $i if neither check is true
-        default:
-            echo $i."\n";
-            break;
-    }
+        $check_a => "foo \n",
+        // print foobar if both checks are true
+        $check_b => "bar \n",
+        // print the value of $i if none of the checks are true
+        default => $i."\n",
+    };
 }
