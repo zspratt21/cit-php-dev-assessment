@@ -2,3 +2,4 @@
 .env
 vendor
 csv
+.phpunit.result.cache

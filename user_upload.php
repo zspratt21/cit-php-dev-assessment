@@ -23,7 +23,7 @@ $options = getopt($short_options, $long_options);
 $has_credentials = isset($options['u']) && isset($options['p']) && isset($options['h']);
 // check if the required arguments are set
 if (!$has_credentials && ! isset($options['help'])) {
-    $app->error("Please provide the required args: -u (username), -p (password), -h (mysql host)");
+    $app->error("Please provide the required args: -u (username), -p (password), -h (mysql host) or use --help for more information.");
 
     $app->info('Exiting...');
     exit(1);
@@ -47,6 +47,10 @@ try {
         $app->runCommand(['', 'users', 'createtable']);
     }
     // @todo run users dryrun
+    elseif (isset($options['dry_run'])) {
+        $file = $options['file'] ?? './csv/users.csv';
+        $app->runCommand(['', 'users', 'dryrun', "file={$file}"]);
+    }
     // @todo run users import(default)
 } catch (CommandNotFoundException $notFoundException) {
     $app->error("Command Not Found.");
