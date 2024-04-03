@@ -16,7 +16,7 @@ class DefaultController extends CommandController
         $infoContent .= "-u – MySQL username\n";
         $infoContent .= "-p – MySQL password\n";
         $infoContent .= "-h – MySQL host\n";
-        $infoContent .= "-d – MySQL database name, falls back to DB_NAME environment variable if not provided and 'catalyst' if DB_NAME is not set in the .env file";
+        $infoContent .= "-d – MySQL database name, falls back to DB_NAME environment variable if not provided and 'catalyst' if DB_NAME is not set in the .env file or the .env file is not present";
 
         $this->info($infoContent);
     }

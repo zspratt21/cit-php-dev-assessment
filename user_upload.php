@@ -16,6 +16,13 @@ use RedBeanPHP\R as R;
 // use custom App class that extends Minicli\App
 $app = new App();
 
+try {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+} catch (Exception $e) {
+    $app->info("WARNING: env file could not be loaded. Falling back to env values will not be possible.");
+}
+
 // get the commandline arguments
 $short_options = "u:p:h:d:";
 $long_options = ["file:", "create_table", "dry_run", "help"];
@@ -32,7 +39,7 @@ if ( ! $has_credentials && ! isset($options['help'])) {
     $username = $options['u'];
     $password = $options['p'];
     $host = $options['h'];
-    $database = ! empty($options['d']) ? $options['d'] : (getenv('DB_NAME') ?: 'catalyst');
+    $database = ! empty($options['d']) ? $options['d'] : ($_ENV['DB_NAME'] ?: 'catalyst');
     $app->info("Connecting to database {$database} on {$host} as {$username}...");
     R::setup("mysql:host={$host};dbname={$database}", $username, $password);
     if (R::testConnection()) {
