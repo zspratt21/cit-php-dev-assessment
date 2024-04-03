@@ -20,13 +20,7 @@ try {
     $app->error("Command Not Found.");
     return 1;
 } catch (Throwable $e) {
-    if ($e instanceof Exception) {
-        if ($app->config->debug) {
-            $app->error('An error occurred: '.$e->getMessage());
-        }
-    } else {
-        $app->info('An error occurred: '.$e->getMessage());
-    }
+    $app->error('An error occurred: '.$e->getMessage());
     return 1;
 }
 

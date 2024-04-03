@@ -17,37 +17,39 @@ use RedBeanPHP\R as R;
 $app = new App();
 
 // get the commandline arguments
-$short_options = "u:p:h:d";
+$short_options = "u:p:h:d:";
 $long_options = ["file:", "create_table", "dry_run", "help"];
 $options = getopt($short_options, $long_options);
-$has_credentials = isset($options['u']) && isset($options['p']) && isset($options['h']);
+$has_credentials = isset($options['u'], $options['p'], $options['h']);
 // check if the required arguments are set
-if (!$has_credentials && ! isset($options['help'])) {
+if ( ! $has_credentials && ! isset($options['help'])) {
     $app->error("Please provide the required args: -u (username), -p (password), -h (mysql host) or use --help for more information.");
 
     $app->info('Exiting...');
     exit(1);
-}
-elseif($has_credentials) {
+} elseif($has_credentials) {
     // argument values for forming the database connection
     $username = $options['u'];
     $password = $options['p'];
     $host = $options['h'];
-    $database = getenv('DB_NAME') ?: 'catalyst';
+    $database = ! empty($options['d']) ? $options['d'] : (getenv('DB_NAME') ?: 'catalyst');
+    $app->info("Connecting to database {$database} on {$host} as {$username}...");
     $toolbox = R::setup("mysql:host={$host};dbname={$database}", $username, $password);
-
-    $app->setToolBox($toolbox);
+    if (R::testConnection()) {
+        $app->setToolBox($toolbox);
+        $app->success("Connected to database.");
+    } else {
+        $app->error("Failed to connect to the specified database with the provided credentials.");
+        exit(1);
+    }
 }
 
 try {
     if (isset($options['help'])) {
         $app->runCommand(['', 'instructions']);
-    }
-    elseif (isset($options['create_table'])) {
+    } elseif (isset($options['create_table'])) {
         $app->runCommand(['', 'users', 'createtable']);
-    }
-    // @todo run users dryrun
-    elseif (isset($options['dry_run'])) {
+    } elseif (isset($options['dry_run'])) {
         $file = $options['file'] ?? './csv/users.csv';
         $app->runCommand(['', 'users', 'dryrun', "file={$file}"]);
     }
@@ -56,13 +58,7 @@ try {
     $app->error("Command Not Found.");
     return 1;
 } catch (Throwable $e) {
-    if ($e instanceof Exception) {
-        if ($app->config->debug) {
-            $app->error('An error occurred: '.$e->getMessage());
-        }
-    } else {
-        $app->info('An error occurred: '.$e->getMessage());
-    }
+    $app->error('An error occurred: '.$e->getMessage());
     return 1;
 }
 
