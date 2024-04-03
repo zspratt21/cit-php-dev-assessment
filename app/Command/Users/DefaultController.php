@@ -7,6 +7,7 @@ namespace App\Command\Users;
 use App\Model\User;
 use Minicli\Command\CommandController;
 use RedBeanPHP\R as R;
+use Exception;
 
 class DefaultController extends CommandController
 {
@@ -15,8 +16,7 @@ class DefaultController extends CommandController
         // check and make sure the users table exists
         try {
             R::inspect('users');
-        }
-        catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->error('The users table does not exist. Please run the script with the --create_table flag first.');
             exit(1);
         }
