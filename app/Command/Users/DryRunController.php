@@ -22,7 +22,9 @@ class DryRunController extends CommandController
             $first_line = true;
             $table = new TableHelper();
             $table->addHeader(['CSV Line', 'SQL Query']);
+            // loop through the csv and print the SQL query that would be executed if the line contains valid data.
             while (($line = fgetcsv($file_handle)) !== false) {
+                // ignore first line containing headers
                 if ($first_line) {
                     $first_line = false;
                     continue;

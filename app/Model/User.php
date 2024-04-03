@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\RFCValidation;
+use RedBeanPHP\R as R;
+
 class User
 {
     private string $name;
     private string $surname;
 
-    private string $email;
+    private string|null $email;
 
     public function __construct(string $name, string $surname, string $email)
     {
@@ -32,11 +36,15 @@ class User
 
     public function setEmail(string $email): void
     {
+        // trim the email before validating it
+        $email = trim($email);
+
         // ensure email is in a valid format
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $validator = new EmailValidator();
+        if ($validator->isValid($email, new RFCValidation())) {
             $this->email = mb_strtolower($email);
         } else {
-            $this->email = '';
+            $this->email = null;
         }
     }
 
@@ -62,18 +70,40 @@ class User
 
     public function dryPrint(): string
     {
+        $name = $this->name ? addslashes($this->name) : 'EMPTY_NAME';
+        $surname = $this->surname ? addslashes($this->surname) : 'EMPTY_SURNAME';
+        $email = $this->email ? addslashes($this->email) : 'EMPTY_EMAIL_OR_INVALID_FORMAT';
         if ($this->isValid()) {
-            $name = addslashes($this->name);
-            $surname = addslashes($this->surname);
-            $email = addslashes($this->email);
             return "INSERT INTO users (id, name, surname, email) VALUES (NULL, '{$name}', '{$surname}', '{$email}')";
         }
-        return 'Invalid user data. Cannot print SQL. Reason: '.$this->getInvalidFields();
+        return "Invalid data for user {$name} {$surname} with email {$email}. Reason: {$this->getInvalidFields()}";
 
     }
 
-    public function store(): void
+    public function insert(): string
     {
-        // @todo implement
+        if ($this->isValid()) {
+            $user_insert = R::dispense('users');
+            $user_insert->name = $this->name;
+            $user_insert->surname = $this->surname;
+            $user_insert->email = $this->email;
+            // check if user with specified email already exists
+            $existing_user = R::findOne('users', 'email = ?', [$this->email]);
+            if ($existing_user) {
+                return 'User with email '.$this->email.' already exists.';
+            }
+            else {
+                try {
+                    R::store($user_insert);
+                    return "User {$this->name} {$this->surname} with email {$this->email} imported successfully.";
+                } catch (\Exception $e) {
+                    return "Error importing user: {$e->getMessage()}";
+                }
+            }
+        }
+        $name = $this->name ?: 'EMPTY_NAME';
+        $surname = $this->surname ?: 'EMPTY_SURNAME';
+        $email = $this->email ?: 'EMPTY_EMAIL_OR_INVALID_FORMAT';
+        return "Invalid data for user {$name} {$surname} with email {$email}. Reason: {$this->getInvalidFields()}";
     }
 }

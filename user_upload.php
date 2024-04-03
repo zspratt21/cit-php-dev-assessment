@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 require 'vendor/autoload.php';
 
-use App\App;
+use Minicli\App;
 use Minicli\Exception\CommandNotFoundException;
 use RedBeanPHP\R as R;
 
@@ -34,9 +34,8 @@ if ( ! $has_credentials && ! isset($options['help'])) {
     $host = $options['h'];
     $database = ! empty($options['d']) ? $options['d'] : (getenv('DB_NAME') ?: 'catalyst');
     $app->info("Connecting to database {$database} on {$host} as {$username}...");
-    $toolbox = R::setup("mysql:host={$host};dbname={$database}", $username, $password);
+    R::setup("mysql:host={$host};dbname={$database}", $username, $password);
     if (R::testConnection()) {
-        $app->setToolBox($toolbox);
         $app->success("Connected to database.");
     } else {
         $app->error("Failed to connect to the specified database with the provided credentials.");
@@ -52,13 +51,17 @@ try {
     } elseif (isset($options['dry_run'])) {
         $file = $options['file'] ?? './csv/users.csv';
         $app->runCommand(['', 'users', 'dryrun', "file={$file}"]);
+    } elseif (isset($options['file'])) {
+        $file = $options['file'];
+        $app->runCommand(['', 'users', 'default', "file={$file}"]);
+    } else {
+        $app->error("Please provide adequate options to execute a valid command. Use --help for more information.");
     }
-    // @todo run users import(default)
 } catch (CommandNotFoundException $notFoundException) {
     $app->error("Command Not Found.");
     return 1;
 } catch (Throwable $e) {
-    $app->error('An error occurred: '.$e->getMessage());
+    $app->error("An error occurred: {$e->getMessage()}");
     return 1;
 }
 

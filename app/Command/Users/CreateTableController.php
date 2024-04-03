@@ -6,6 +6,7 @@ namespace App\Command\Users;
 
 use Minicli\Command\CommandController;
 use PDOException;
+use RedBeanPHP\R;
 
 class CreateTableController extends CommandController
 {
@@ -18,10 +19,10 @@ class CreateTableController extends CommandController
             surname VARCHAR(100) NOT NULL,
             email VARCHAR(100) NOT NULL UNIQUE
         )";
-        $pdo = $this->getApp()->getToolBox()->getDatabaseAdapter()->getDatabase()->getPDO();
+        $pdo = R::getToolBox()->getDatabaseAdapter()->getDatabase()->getPDO();
         try {
             $pdo->exec($create_table_sql);
-            $this->success('Users table created!');
+            $this->success('Users table created.');
         } catch (PDOException $e) {
             error_log($e->getMessage());
         }
