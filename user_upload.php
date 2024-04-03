@@ -25,16 +25,11 @@ try {
 
 // get the commandline arguments
 $short_options = "u:p:h:d:";
-$long_options = ["file:", "create_table", "dry_run", "help"];
+$long_options = ["file:", "create_table", "dry_run", "help", "foobar"];
 $options = getopt($short_options, $long_options);
 $has_credentials = isset($options['u'], $options['p'], $options['h']);
 // check if the required arguments are set
-if ( ! $has_credentials && ! isset($options['help'])) {
-    $app->error("Please provide the required args: -u (username), -p (password), -h (mysql host) or use --help for more information.");
-
-    $app->info('Exiting...');
-    exit(1);
-} elseif($has_credentials) {
+if($has_credentials) {
     // argument values for forming the database connection
     $username = $options['u'];
     $password = $options['p'];
@@ -53,14 +48,16 @@ if ( ! $has_credentials && ! isset($options['help'])) {
 try {
     if (isset($options['help'])) {
         $app->runCommand(['', 'instructions']);
-    } elseif (isset($options['create_table'])) {
+    } elseif (isset($options['foobar'])) {
+        $app->runCommand(['', 'foobar']);
+    } elseif (isset($options['create_table']) && $has_credentials) {
         $app->runCommand(['', 'users', 'createtable']);
     } elseif (isset($options['file'])) {
         $file = $options['file'];
         if (file_exists($file)) {
             if (isset($options['dry_run'])) {
                 $app->runCommand(['', 'users', 'dryrun', "file={$file}"]);
-            } else {
+            } elseif($has_credentials) {
                 $app->runCommand(['', 'users', 'default', "file={$file}"]);
             }
         } else {

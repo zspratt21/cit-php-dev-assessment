@@ -13,7 +13,6 @@ namespace App\Command\Users;
 use App\Model\User;
 use Minicli\Command\CommandController;
 use Minicli\Output\Helper\TableHelper;
-use RedBeanPHP\R as R;
 
 class DryRunController extends CommandController
 {
@@ -39,13 +38,6 @@ class DryRunController extends CommandController
         }
         $this->rawOutput($table->getFormattedTable());
         $this->newline();
-        // check and make sure the users table exists
-        try {
-            R::inspect('users');
-        }
-        catch (\Exception $e) {
-            $this->info('WARNING: The users table does not exist. You will need to run the script with the --create_table flag before you can import users into the database!');
-        }
         $this->success('Dry run complete. No data was inserted.');
     }
 }

@@ -3,7 +3,7 @@
 /**
  * Default Controller for the Foobar command namespace.
  *
- * Implements the logic to display the foobar table.
+ * Implements task 2 of the assessment as a command within the structure of minicli framework.
  */
 
 declare(strict_types=1);

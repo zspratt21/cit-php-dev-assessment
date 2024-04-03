@@ -11,9 +11,9 @@ declare(strict_types=1);
 namespace App\Command\Users;
 
 use App\Model\User;
+use Exception;
 use Minicli\Command\CommandController;
 use RedBeanPHP\R as R;
-use Exception;
 
 class DefaultController extends CommandController
 {

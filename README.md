@@ -13,6 +13,7 @@ This project implements an assessment provided by Catalyst IT and consists of 2 
 ## Installation
 - Clone the repository to your local machine
 - Run `composer install` to install dependencies
+- Copy the example.env file to .env and adjust to your setup as needed
 
 ## Usage
 - Run `php user_upload.php --help` to see the available commands and options
@@ -24,6 +25,9 @@ This project implements an assessment provided by Catalyst IT and consists of 2 
 - Special characters in the name and surname fields are considered acceptable, since the brief does not explicitly state they are not allowed.
 - The --dry_run task checks individual lines within a given csv file on the basis of its fields alone, irrespective of other lines in the file or entries already existing in the users table.
 - Emails should not contain special characters except the @ symbol, as many email providers do not support email addresses containing other special characters.
+- Task 1 may have its implementation split across multiple files, allowing the use of frameworks and libraries to handle functionality.
 
 ## Extras
 - The -d flag can be used to specify the name of the database to use. The user upload script will fall back to the .env file if present, otherwise the default value of 'catalyst'.
+- A second implementation of task 2 as a command registered in the MiniCli Based task 1 script.
+- Unit tests for the task 1 implementation, using Pest.
