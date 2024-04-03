@@ -8,7 +8,7 @@ This project implements an assessment provided by Catalyst IT and consists of 2 
 - Composer
 - MySQL 5.7 or higher
 - A database named 'catalyst' or a database of your choice, with the appropriate values provided either as the appropriate flags or in the .env file(see example.env for an example setup)
-- Docker, if intending to use environment provided in the docker-compose.yml file.
+- Docker, if intending to use environment provided in the docker-compose.yml file to execute the scripts.
 
 ## Installation
 - Clone the repository to your local machine
