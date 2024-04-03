@@ -40,9 +40,8 @@ class User
         // trim the email before validating it
         $email = trim($email);
 
-        // ensure email is in a valid format
-        $validator = new EmailValidator();
-        if ($validator->isValid($email, new RFCValidation())) {
+        // ensure email is in a valid format using a custom regex
+        if (preg_match("/^[a-zA-Z0-9._%+'-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $email)) {
             $this->email = mb_strtolower($email);
         } else {
             $this->email = null;

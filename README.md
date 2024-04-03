@@ -9,4 +9,4 @@
 - Errors and exceptions when caught, will be printed to the screen and the app will close gracefully or continue(where appropriate) instead of crashing with a stack trace.
 - Special characters in the name and surname fields are considered acceptable, since the brief does not explicitly state they are not allowed.
 - The --dry_run task checks individual lines within a given csv file on the basis of its fields alone, irrespective of other lines in the file or entries already existing in the users table.
-- Emails should be validated on the RFC 5322 standard.
+- Emails should not contain special characters except the @ symbol, as many email providers do not support email addresses containing other special characters.

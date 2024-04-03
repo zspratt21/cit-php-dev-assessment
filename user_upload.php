@@ -48,12 +48,17 @@ try {
         $app->runCommand(['', 'instructions']);
     } elseif (isset($options['create_table'])) {
         $app->runCommand(['', 'users', 'createtable']);
-    } elseif (isset($options['dry_run'])) {
-        $file = $options['file'] ?? './csv/users.csv';
-        $app->runCommand(['', 'users', 'dryrun', "file={$file}"]);
     } elseif (isset($options['file'])) {
         $file = $options['file'];
-        $app->runCommand(['', 'users', 'default', "file={$file}"]);
+        if (file_exists($file)) {
+            if (isset($options['dry_run'])) {
+                $app->runCommand(['', 'users', 'dryrun', "file={$file}"]);
+            } else {
+                $app->runCommand(['', 'users', 'default', "file={$file}"]);
+            }
+        } else {
+            $app->error("File not found: {$file}");
+        }
     } else {
         $app->error("Please provide adequate options to execute a valid command. Use --help for more information.");
     }
