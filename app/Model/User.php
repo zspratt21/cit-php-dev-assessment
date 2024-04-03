@@ -7,6 +7,7 @@ namespace App\Model;
 use Egulias\EmailValidator\EmailValidator;
 use Egulias\EmailValidator\Validation\RFCValidation;
 use RedBeanPHP\R as R;
+use Exception;
 
 class User
 {
@@ -91,12 +92,11 @@ class User
             $existing_user = R::findOne('users', 'email = ?', [$this->email]);
             if ($existing_user) {
                 return 'User with email '.$this->email.' already exists.';
-            }
-            else {
+            } else {
                 try {
                     R::store($user_insert);
                     return "User {$this->name} {$this->surname} with email {$this->email} imported successfully.";
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     return "Error importing user: {$e->getMessage()}";
                 }
             }
