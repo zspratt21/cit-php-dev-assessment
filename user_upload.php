@@ -52,7 +52,7 @@ try {
         $app->runCommand(['', 'foobar']);
     } elseif (isset($options['create_table']) && $has_credentials) {
         $app->runCommand(['', 'users', 'createtable']);
-    } elseif (isset($options['file']) && ($has_credentials || isset($options['dry_run'])) ) {
+    } elseif (isset($options['file']) && ($has_credentials || isset($options['dry_run']))) {
         $file = $options['file'];
         if (file_exists($file)) {
             if (isset($options['dry_run'])) {
