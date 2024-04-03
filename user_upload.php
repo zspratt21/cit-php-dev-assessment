@@ -52,12 +52,12 @@ try {
         $app->runCommand(['', 'foobar']);
     } elseif (isset($options['create_table']) && $has_credentials) {
         $app->runCommand(['', 'users', 'createtable']);
-    } elseif (isset($options['file'])) {
+    } elseif (isset($options['file']) && ($has_credentials || isset($options['dry_run'])) ) {
         $file = $options['file'];
         if (file_exists($file)) {
             if (isset($options['dry_run'])) {
                 $app->runCommand(['', 'users', 'dryrun', "file={$file}"]);
-            } elseif($has_credentials) {
+            } else {
                 $app->runCommand(['', 'users', 'default', "file={$file}"]);
             }
         } else {

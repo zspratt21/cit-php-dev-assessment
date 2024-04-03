@@ -1,7 +1,7 @@
 # Catalyst IT PHP Developer Assessment
 
 ## Introduction
-This project implements an assessment provided by Catalyst IT and consists of 2 primary PHP scripts(user_upload.php and foobar.php), both of which utilize the MiniCli framework and adhere to it's recommended structure, including the PSR-12 coding standard.
+This project implements an assessment provided by Catalyst IT and consists of 2 primary PHP scripts(user_upload.php and foobar.php), the first script utilizing the MiniCli framework and adhering to it's recommended structure, including the PSR-12 coding standard.
 
 ## Requirements
 - PHP 8.1 or higher

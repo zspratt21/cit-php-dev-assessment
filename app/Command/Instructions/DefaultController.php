@@ -16,9 +16,12 @@ class DefaultController extends CommandController
 {
     public function handle(): void
     {
-        $infoContent = "--file [csv file name] – this is the name of the CSV to be parsed\n";
-        $infoContent .= "--create_table – this will cause the MySQL users table to be built (and no further action will be taken)\n";
+        $this->info("Usage guide for the Users Import Script");
+        $this->info("Flags are listed in the order they will be prioritised(if multiple flags trigger opposing operations)");
+
+        $infoContent = "--create_table - requires database credentials – this will cause the MySQL users table to be built (and no further action will be taken)\n";
         $infoContent .= "--dry_run – this will be used with the --file directive to run the script, but not insert into the DB. All other functions will be executed, but the database won't be altered\n";
+        $infoContent .= "--file [csv file name] - requires database credentials – this is the name of the CSV to be parsed\n";
         $infoContent .= "-u – MySQL username\n";
         $infoContent .= "-p – MySQL password\n";
         $infoContent .= "-h – MySQL host\n";
