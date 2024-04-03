@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Default Controller for the Users command namespace.
+ *
+ * Implements the logic to import users from a CSV file.
+ */
+
 declare(strict_types=1);
 
 namespace App\Command\Users;

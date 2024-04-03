@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Dry Run Controller.
+ *
+ * Parses a CSV file and prints SQL queries for each valid data line.
+ */
+
 declare(strict_types=1);
 
 namespace App\Command\Users;

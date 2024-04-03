@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Default Controller for Foobar Command.
+ * Default Controller for the Foobar command namespace.
  *
  * Implements the logic to display the foobar table.
  */

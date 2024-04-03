@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Default Controller for the Instructions command namespace.
+ *
+ * Prints out command details.
+ */
+
 declare(strict_types=1);
 
 namespace App\Command\Instructions;
@@ -8,7 +14,7 @@ use Minicli\Command\CommandController;
 
 class DefaultController extends CommandController
 {
-     public function handle(): void
+    public function handle(): void
     {
         $infoContent = "--file [csv file name] – this is the name of the CSV to be parsed\n";
         $infoContent .= "--create_table – this will cause the MySQL users table to be built (and no further action will be taken)\n";
