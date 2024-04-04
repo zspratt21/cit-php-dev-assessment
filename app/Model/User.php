@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use Egulias\EmailValidator\EmailValidator;
-use Egulias\EmailValidator\Validation\RFCValidation;
 use RedBeanPHP\R as R;
 use Exception;
 
