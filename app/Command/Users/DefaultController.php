@@ -46,5 +46,6 @@ class DefaultController extends CommandController
                 $this->error($outcome);
             }
         }
+        $this->info('User Import completed.');
     }
 }
