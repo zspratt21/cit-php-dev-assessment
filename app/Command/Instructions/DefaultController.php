@@ -21,7 +21,8 @@ class DefaultController extends CommandController
 
         $infoContent = "--create_table - requires database credentials – this will cause the MySQL users table to be built (and no further action will be taken)\n";
         $infoContent .= "--dry_run – this will be used with the --file directive to run the script, but not insert into the DB. All other functions will be executed, but the database won't be altered\n";
-        $infoContent .= "--file [csv file name] - requires database credentials – this is the name of the CSV to be parsed\n";
+        $infoContent .= "--export - requires database credentials – this will be used with the --file directive to export users in the database to the specified file\n";
+        $infoContent .= "--file [file name] - requires database credentials(for default import operation) – this is the name of the file to be parsed. Csv and Json files are supported.\n";
         $infoContent .= "-u – MySQL username\n";
         $infoContent .= "-p – MySQL password\n";
         $infoContent .= "-h – MySQL host\n";

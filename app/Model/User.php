@@ -9,6 +9,8 @@ use Exception;
 
 class User
 {
+    // @todo constants for validation and no more duplicate strings in validation
+
     private string $name;
     private string $surname;
 
@@ -38,8 +40,8 @@ class User
         // trim the email before validating it
         $email = trim($email);
 
-        // ensure email is in a valid format using a custom regex
-        if (preg_match("/^[a-zA-Z0-9._%+'-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", $email)) {
+        // @correction validate email with builtin function
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->email = mb_strtolower($email);
         } else {
             $this->email = null;

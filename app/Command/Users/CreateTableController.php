@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace App\Command\Users;
 
-use Exception;
+use App\Helper\Model\UserHelper;
 use Minicli\Command\CommandController;
 use PDOException;
 use RedBeanPHP\R;
@@ -19,11 +19,10 @@ class CreateTableController extends CommandController
 {
     public function handle(): void
     {
-        try {
-            R::inspect('users');
+        if (UserHelper::checkTableExists()) {
             $this->info('The users table already exists.');
             exit(0);
-        } catch (Exception $e) {
+        } else {
             $this->info('Creating users table...');
             $create_table_sql = "CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -36,7 +35,8 @@ class CreateTableController extends CommandController
                 $pdo->exec($create_table_sql);
                 $this->success('Users table created.');
             } catch (PDOException $e) {
-                error_log($e->getMessage());
+                $this->error("Failed to create users table. Reason: {$e->getMessage()}.");
+                exit(1);
             }
         }
     }

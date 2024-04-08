@@ -24,10 +24,11 @@ This project implements an assessment provided by Catalyst IT and consists of 2 
 - Errors and exceptions when caught, will be printed to the screen and the app will close gracefully or continue(where appropriate) instead of crashing with a stack trace.
 - Special characters in the name and surname fields are considered acceptable, since the brief does not explicitly state they are not allowed.
 - The --dry_run task checks individual lines within a given csv file on the basis of its fields alone, irrespective of other lines in the file or entries already existing in the users table.
-- Emails should not contain special characters except the @ symbol, as many email providers do not support email addresses containing other special characters.
 - Task 1 may have its implementation split across multiple files, allowing the use of frameworks and libraries to handle functionality.
 
 ## Extras
 - The -d flag can be used to specify the name of the database to use. The user upload script will fall back to the .env file if present, otherwise the default value of 'catalyst'.
 - A second implementation of task 2 as a command registered in the MiniCli Based task 1 script.
 - Unit tests for the task 1 implementation, using Pest.
+- Support for Json files in the user upload script.
+- The --export flag may be used to export users from the database to a (csv or json) file.
