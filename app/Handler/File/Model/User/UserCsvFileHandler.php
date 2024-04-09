@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Handler\File\User;
+namespace App\Handler\File\Model\User;
 
 use App\Handler\Data\Model\UserDataHandler;
 use App\Handler\File\FileHandler;

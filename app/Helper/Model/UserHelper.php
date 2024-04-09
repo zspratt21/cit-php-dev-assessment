@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Helper\Model;
 
 use App\Handler\Data\Model\UserDataHandler;
-use App\Handler\File\User\UserCsvFileHandler;
-use App\Handler\File\User\UserJsonFileHandler;
+use App\Handler\File\Model\User\UserCsvFileHandler;
+use App\Handler\File\Model\User\UserJsonFileHandler;
 use App\Helper\ModelHelper;
 use Exception;
 use RedBeanPHP\R as R;
