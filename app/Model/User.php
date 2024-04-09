@@ -14,10 +14,10 @@ class User
 
     public string|null $email;
 
-    const EMPTY_NAME = 'EMPTY_NAME';
-    const EMPTY_SURNAME = 'EMPTY_SURNAME';
-    const EMPTY_EMAIL = 'EMPTY_EMAIL_OR_INVALID_FORMAT';
-    const INVALID_DATA_MSG = "Invalid data for user %s %s with email %s. Reason: %s";
+    public const EMPTY_NAME = 'EMPTY_NAME';
+    public const EMPTY_SURNAME = 'EMPTY_SURNAME';
+    public const EMPTY_EMAIL = 'EMPTY_EMAIL_OR_INVALID_FORMAT';
+    public const INVALID_DATA_MSG = "Invalid data for user %s %s with email %s. Reason: %s";
 
     public function __construct(string $name, string $surname, string $email)
     {
