@@ -25,16 +25,11 @@ class DefaultController extends CommandController
             // loop through the users and insert them into the database if their fields contain valid data.
             foreach ($users as $user) {
                 $outcome = $user->insert();
-                // @todo constants for success and error messages
-                if (str_ends_with($outcome, 'imported successfully.')) {
-                    $this->success($outcome);
-                } else {
-                    $this->error($outcome);
-                }
+                $outcome['success'] ? $this->success($outcome['message']) : $this->error($outcome['message']);
             }
             $this->info('User Import completed.');
         } else {
-            $this->error('The users table does not exist. Please run the script with the --create_table flag first.');
+            $this->error(UserHelper::getMissingTableMessage());
         }
     }
 }

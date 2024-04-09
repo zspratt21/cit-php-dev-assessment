@@ -18,10 +18,10 @@ class ExportController extends CommandController
             if ($handler->exportUsers()) {
                 $this->success('Export complete.');
             } else {
-                $this->error('Export failed.');
+                $this->error('No users to export!');
             }
         } else {
-            $this->error('The users table does not exist. Please run the script with the --create_table flag first.');
+            $this->error(UserHelper::getMissingTableMessage());
         }
     }
 }

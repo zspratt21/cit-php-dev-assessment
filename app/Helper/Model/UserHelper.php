@@ -24,6 +24,11 @@ class UserHelper implements ModelHelper
         }
     }
 
+    public static function getMissingTableMessage(): string
+    {
+        return 'The users table does not exist. Please run the script with the --create_table flag first.';
+    }
+
     public static function getDataHandler(string $filePath, string $format): UserDataHandler
     {
         return match ($format) {

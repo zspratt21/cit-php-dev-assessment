@@ -9,12 +9,15 @@ use Exception;
 
 class User
 {
-    // @todo constants for validation and no more duplicate strings in validation
+    public string $name;
+    public string $surname;
 
-    private string $name;
-    private string $surname;
+    public string|null $email;
 
-    private string|null $email;
+    const EMPTY_NAME = 'EMPTY_NAME';
+    const EMPTY_SURNAME = 'EMPTY_SURNAME';
+    const EMPTY_EMAIL = 'EMPTY_EMAIL_OR_INVALID_FORMAT';
+    const INVALID_DATA_MSG = "Invalid data for user %s %s with email %s. Reason: %s";
 
     public function __construct(string $name, string $surname, string $email)
     {
@@ -70,39 +73,50 @@ class User
 
     public function dryPrint(): string
     {
-        $name = $this->name ? addslashes($this->name) : 'EMPTY_NAME';
-        $surname = $this->surname ? addslashes($this->surname) : 'EMPTY_SURNAME';
-        $email = $this->email ? addslashes($this->email) : 'EMPTY_EMAIL_OR_INVALID_FORMAT';
+        $name = $this->name ? addslashes($this->name) : self::EMPTY_NAME;
+        $surname = $this->surname ? addslashes($this->surname) : self::EMPTY_SURNAME;
+        $email = $this->email ? addslashes($this->email) : self::EMPTY_EMAIL;
         if ($this->isValid()) {
             return "INSERT INTO users (id, name, surname, email) VALUES (NULL, '{$name}', '{$surname}', '{$email}')";
         }
-        return "Invalid data for user {$name} {$surname} with email {$email}. Reason: {$this->getInvalidFields()}";
-
+        return sprintf(self::INVALID_DATA_MSG, $name, $surname, $email, $this->getInvalidFields());
     }
 
-    public function insert(): string
+    /**
+     * @return array{message: string, success: bool}
+     */
+    public function insert(): array
     {
+        $name = $this->name ?: self::EMPTY_NAME;
+        $surname = $this->surname ?: self::EMPTY_SURNAME;
+        $email = $this->email ?: self::EMPTY_EMAIL;
+        $message = sprintf(self::INVALID_DATA_MSG, $name, $surname, $email, $this->getInvalidFields());
+        $success = false;
         if ($this->isValid()) {
             $user_insert = R::dispense('users');
-            $user_insert->name = $this->name;
-            $user_insert->surname = $this->surname;
-            $user_insert->email = $this->email;
+            $user_insert->name = $name;
+            $user_insert->surname = $surname;
+            $user_insert->email = $email;
             // check if user with specified email already exists
-            $existing_user = R::findOne('users', 'email = ?', [$this->email]);
+            $existing_user = R::findOne('users', 'email = ?', [$email]);
             if ($existing_user) {
-                return 'User with email '.$this->email.' already exists.';
+                $message = "User {$name} {$surname} with email {$email} already exists.";
             } else {
                 try {
                     R::store($user_insert);
-                    return "User {$this->name} {$this->surname} with email {$this->email} imported successfully.";
+                    $message = "User {$name} {$surname} with email {$email} successfully inserted.";
+                    $success = true;
                 } catch (Exception $e) {
-                    return "Error importing user: {$e->getMessage()}";
+                    return [
+                        'message' => "Error importing user: {$e->getMessage()}",
+                        'success' => false,
+                    ];
                 }
             }
         }
-        $name = $this->name ?: 'EMPTY_NAME';
-        $surname = $this->surname ?: 'EMPTY_SURNAME';
-        $email = $this->email ?: 'EMPTY_EMAIL_OR_INVALID_FORMAT';
-        return "Invalid data for user {$name} {$surname} with email {$email}. Reason: {$this->getInvalidFields()}";
+        return [
+            'message' => $message,
+            'success' => $success,
+        ];
     }
 }

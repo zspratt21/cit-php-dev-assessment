@@ -3,7 +3,7 @@
 /**
  * Dry Run Controller.
  *
- * Parses a CSV file and prints SQL queries for each valid data line.
+ * Parses a provided file and prints SQL queries for each valid data entry within the provided file.
  */
 
 declare(strict_types=1);
@@ -25,7 +25,7 @@ class DryRunController extends CommandController
         $count = 0;
         $handler = UserHelper::getDataHandler($file, $this->getParam('format'));
         $users = $handler->importUsers();
-        // loop through the user and print the SQL query that would be executed if the line contains valid data.
+        // loop through the users and print the SQL query that would be executed if the line contains valid data.
         foreach ($users as $user) {
             $count++;
             $table->addRow([(string)$count, $user->dryPrint()]);
