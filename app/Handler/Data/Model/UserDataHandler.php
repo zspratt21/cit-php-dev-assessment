@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Handler\Data\User;
+namespace App\Handler\Data\Model;
 
 use App\Handler\Data\DataHandler;
 use App\Model\User;

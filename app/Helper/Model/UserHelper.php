@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helper\Model;
 
-use App\Handler\Data\User\UserDataHandler;
+use App\Handler\Data\Model\UserDataHandler;
 use App\Handler\File\User\UserCsvFileHandler;
 use App\Handler\File\User\UserJsonFileHandler;
 use App\Helper\ModelHelper;

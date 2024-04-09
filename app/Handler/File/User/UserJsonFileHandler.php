@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Handler\File\User;
 
-use App\Handler\Data\User\UserDataHandler;
+use App\Handler\Data\Model\UserDataHandler;
 use App\Handler\File\FileHandler;
 use App\Model\User;
 use Exception;
