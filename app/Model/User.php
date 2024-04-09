@@ -9,10 +9,9 @@ use Exception;
 
 class User
 {
-    public string $name;
-    public string $surname;
-
-    public string|null $email;
+    protected string $name;
+    protected string $surname;
+    protected string|null $email;
 
     public const EMPTY_NAME = 'EMPTY_NAME';
     public const EMPTY_SURNAME = 'EMPTY_SURNAME';
